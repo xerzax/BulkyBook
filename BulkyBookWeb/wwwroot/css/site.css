@@ -1,0 +1,28 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/* Add this to your CSS file */
+form label {
+    cursor: pointer;
+    color: #999; /* Default star color */
+}
+
+form input:checked + label {
+    color: #FFD700; /* Star color when selected */
+}

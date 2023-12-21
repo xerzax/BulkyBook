@@ -1,0 +1,55 @@
+﻿@model Book
+
+
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">
+				Edit Books
+				<hr />
+			</h2>
+		</div>
+		@* <div asp-validation-summary="All"></div>  *@
+		<div class="mb-3">
+			<label asp-for="BookName"></label>
+			<input asp-for="BookName" class="form-control" />
+			<span asp-validation-for="BookName" class=" text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="AuthorName"></label>
+			<input asp-for="AuthorName" class="form-control" />
+			<span asp-validation-for="AuthorName" class=" text-danger"></span>
+
+		</div>
+		<div class="mb-3">
+			<label asp-for="PublishedDate"></label>
+			<input asp-for="PublishedDate" class="form-control" />
+			<span asp-validation-for="PublishedDate" class=" text-danger"></span>
+
+		</div>
+		<div class="mb-3">
+			<label asp-for="CategoryId"></label>
+			<select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
+				<option value="">Select a category</option>
+			</select>
+			<span asp-validation-for="CategoryId" class=" text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label for="image" class="form-label">Image </label>
+			<input type="file" class=" form-control-file" asp-for="@Model.Image" accept="image/png, image/gif, image/jpeg" />
+			<img src="@Url.Content(Model.Image)" alt="Current Image" class="img-thumbnail" />
+			<input type="hidden" asp-for="Image" />
+		</div>
+		<button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+		<a asp-asp-controller="Book" asp-action="Index" class="btn btn-secondary" style="width: 150px">
+			Back To List
+		</a>
+	</div>
+
+</form>
+
+@section Scripts{
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}

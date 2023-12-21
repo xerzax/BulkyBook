@@ -1,0 +1,139 @@
+﻿@model BookView
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+
+
+<h1>Detail</h1>
+
+<div>
+    <h4>Book</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+        <dd>
+            <img src="@Model.Books?.Image" style="width: 220px; height: 230px;" />
+        </dd>
+        </dt>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Books.BookName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Books.BookName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Books.AuthorName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Books.AuthorName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Books.PublishedDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Books.PublishedDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Books.Categories)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Books.Categories.Name)
+        </dd>
+    </dl>
+    <hr/>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?Books.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+<form method="post" asp-controller="Comment" asp-action="CreateComment">
+    @*<h1>@Context.Request.RouteValues["id"]</h1>*@
+    <div class="card">
+        <h5 class="card-header">Add Coments</h5>
+        <div class="card-body">
+            <input type="hidden" asp-for="@Model.Comment.BookId" value="@Model.Books.Id" />
+            <textarea asp-for="@Model.Comment.Content" class="form-control" row="3"></textarea>
+            <button class="btn btn-primary mt-2">Add Comment</button>
+        </div>
+    </div>
+</form>
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th style="color:white">
+                Comments
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model.Comments )
+        {
+            <tr>
+                <td width="30%" style="color: white">
+                    @obj.Content
+                </td>
+
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="Book" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-outline-success mx-2"><i class="bi bi-pencil-square">Edit</i></a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<!-- Add or modify this section for rating -->
+@* <h3>Rate This Book</h3>
+<form asp-controller="Rating" asp-action="SetRating" method="post">
+    <input type="hidden" asp-for="Rating.BookId" value="@Model.Books.Id" />
+    <label for="Rating.Stars">Stars:</label>
+    <input type="number" id="Rating.Stars" name="Rating.Stars" asp-for="Rating.Stars" min="1" max="5" required />
+    <button type="submit">Submit Rating</button> *@
+@* </form> *@
+<!-- Add or modify this section for rating -->
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h1>Detail</h1>
+
+<!-- Add or modify this section for rating -->
+@if (Model.Rating != null)
+{
+    <div>
+        <h3>Current Rating: @Model.Rating.Stars</h3>
+        <div>
+            @for (int i = 1; i <= 5; i++)
+            {
+                <i class="bi bi-star-fill" style="color: @(i <= Model.Rating.Stars ? "gold" : "gray")"></i>
+            }
+        </div>
+    </div>
+}
+
+<!-- Add or modify this section for rating -->
+<h3>Rate This Book</h3>
+<form asp-controller="Rating" asp-action="SetRating" method="post">
+    <input type="hidden" asp-for="Rating.BookId" value="@Model.Books.Id" />
+    <label for="Rating.Stars">Stars:</label>
+
+    <!-- Display stars for setting a new rating -->
+    @{
+        int currentRating = Model.Rating?.Stars ?? 0;
+    }
+    @for (int i = 1; i <= 5; i++)
+    {
+        <input type="radio" id="star@i" name="Rating.Stars" value="@i" @(i == currentRating ? "checked" : "") />
+        <label for="star@i"><i class="bi bi-star-fill"></i></label>
+    }
+
+    <button type="submit">Submit Rating</button>
+</form>
+
+
+
+
